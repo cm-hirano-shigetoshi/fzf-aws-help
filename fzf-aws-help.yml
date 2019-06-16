@@ -1,0 +1,17 @@
+variables:
+    var1: ""
+base_task:
+    input: bash $(dirname ${yml})/get_command_list.sh
+    opts:
+        - reverse
+        - multi
+    preview: bash $(dirname ${yml})/preview.sh {}
+expects:
+    enter:
+        pipe: bash $(dirname ${yml})/output.sh "${var1}"
+                | sed 's/___OPTIONS___ //g'
+    ctrl-o:
+        continue:
+            var1: $(echo "${o}" | bash $(dirname ${yml})/output.sh)
+            input: echo "${o}" | bash $(dirname ${yml})/continue.sh
+            query: ""
