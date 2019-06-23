@@ -50,6 +50,8 @@ def expand(elements, index):
     if paths is None:
         return ["", ""]
     got_string = filter_with_fzf(paths)
+    if got_string == '':
+        return ["", ""]
     elements[index] = got_string
     new_buf = " ".join(elements)
     if index == len(elements) - 1:
