@@ -78,7 +78,7 @@ pos = int(sys.argv[1])
 elements = shlex.split(buf)
 pos -= len(buf) - len(" ".join(elements))
 index = get_cur_element_index(elements, pos)
-if elements[index].startswith('<') and elements[index].endswith('>'):
+if elements[index-1].startswith('--'):
     [new_pos, new_buf] = expand(elements, index)
     print(new_pos)
     print(new_buf)
