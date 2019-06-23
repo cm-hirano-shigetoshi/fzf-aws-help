@@ -67,7 +67,7 @@ def get_cur_element_index(elements, pos):
         if i > 0:
             end_pos += 1
         end_pos += len(element)
-        if pos < end_pos:
+        if pos <= end_pos:
             return i
     return len(elements)
 
