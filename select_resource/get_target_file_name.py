@@ -13,7 +13,7 @@ def select_resources(input_cmd):
     return stdout
 
 
-def get_input_command(basename):
+def get_result_file_of(basename):
     input_file = "{}/commands/input_{}".format(
         os.environ.get("FZF_AWS_HELP_RESOURCE_HOME"), basename)
     result_file = "{}/{}/result{}".format(
@@ -26,20 +26,20 @@ def get_input_command(basename):
             cmd = "\n".join(f.readlines())
             cmd = re.sub(r'\s+$', '', cmd)
         with open(result_file, "w") as f:
-            proc = subprocess.run(cmd, shell=True, stdout=PIPE, stderr=PIPE)
+            proc = subprocess.run(cmd, shell=True, stdout=PIPE)
             f.write(re.sub(r'\s+$', '', proc.stdout.decode('utf8')))
     return "cat " + result_file
 
 
-def get_input_cmd(service, subcmd, method):
-    input_cmd = ""
+def get_result_file(service, subcmd, method):
+    result_file = ""
     basename = "{}_{}_{}".format(method, service, subcmd)
     while basename.find("_") >= 0:
-        input_cmd = get_input_command(basename)
-        if input_cmd != '':
+        result_file = get_result_file_of(basename)
+        if result_file != '':
             break
         basename = basename[:basename.rfind("_")]
-    return input_cmd
+    return result_file
 
 
 def expand(elements, index):
@@ -48,10 +48,10 @@ def expand(elements, index):
     service = elements[1]
     subcmd = elements[2]
     method = elements[index - 1]
-    input_cmd = get_input_cmd(service, subcmd, method)
-    if input_cmd == '':
+    result_file = get_result_file(service, subcmd, method)
+    if result_file == '':
         return ["", ""]
-    got_string = select_resources(input_cmd)
+    got_string = select_resources(result_file)
     if got_string == '':
         return ["", ""]
     elements[index] = got_string
