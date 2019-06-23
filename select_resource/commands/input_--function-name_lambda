@@ -1,1 +1,1 @@
-aws lambda list-functions | jq -r '.Functions | .[] | .FunctionName'
+aws lambda list-functions | jq -r '.Functions | .[] | .FunctionName' | sort
