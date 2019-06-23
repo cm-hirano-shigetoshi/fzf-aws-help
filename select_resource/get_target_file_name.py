@@ -6,41 +6,38 @@ import subprocess
 from subprocess import PIPE
 
 
-def select_resources(result_file):
-    cmd = 'fzfer run ' + os.environ.get(
-        "FZF_AWS_HELP_RESOURCE_HOME") + '/filter_resources.yml ' + result_file
+def filter_with_fzf(paths):
+    cmd = ' '.join([
+        'fzfer run',
+        os.environ.get("FZF_AWS_HELP_RESOURCE_HOME") + '/filter_resources.yml',
+        paths[0], paths[1]
+    ])
     proc = subprocess.run(cmd, shell=True, stdout=PIPE)
     stdout = re.sub(r'\s+$', '', proc.stdout.decode('utf8'))
     return stdout
 
 
-def get_result_file_of(basename):
+def get_file_paths_of(basename):
     input_file = "{}/commands/input_{}".format(
         os.environ.get("FZF_AWS_HELP_RESOURCE_HOME"), basename)
     result_file = "{}/{}/result{}".format(
         os.environ.get("FZF_AWS_HELP_RESOURCE_RESULT_DIR"),
         os.environ.get("AWS_PROFILE", "default"), basename)
-    if not os.path.exists(input_file):
-        return ""
-    if not os.path.exists(result_file):
-        with open(input_file, "r") as f:
-            cmd = "\n".join(f.readlines())
-            cmd = re.sub(r'\s+$', '', cmd)
-        with open(result_file, "w") as f:
-            proc = subprocess.run(cmd, shell=True, stdout=PIPE)
-            f.write(re.sub(r'\s+$', '', proc.stdout.decode('utf8')))
-    return result_file
+    if os.path.exists(input_file):
+        return [input_file, result_file]
+    else:
+        return None
 
 
-def get_result_file(service, subcmd, method):
-    result_file = ""
+def get_file_paths(service, subcmd, method):
+    paths = None
     basename = "{}_{}_{}".format(method, service, subcmd)
     while basename.find("_") >= 0:
-        result_file = get_result_file_of(basename)
-        if result_file != '':
+        paths = get_file_paths_of(basename)
+        if paths is not None:
             break
         basename = basename[:basename.rfind("_")]
-    return result_file
+    return paths
 
 
 def expand(elements, index):
@@ -49,12 +46,10 @@ def expand(elements, index):
     service = elements[1]
     subcmd = elements[2]
     method = elements[index - 1]
-    result_file = get_result_file(service, subcmd, method)
-    if result_file == '':
+    paths = get_file_paths(service, subcmd, method)
+    if paths is None:
         return ["", ""]
-    got_string = select_resources(result_file)
-    if got_string == '':
-        return ["", ""]
+    got_string = filter_with_fzf(paths)
     elements[index] = got_string
     new_buf = " ".join(elements)
     if index == len(elements) - 1:

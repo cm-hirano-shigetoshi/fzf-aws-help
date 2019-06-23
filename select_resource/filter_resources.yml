@@ -1,5 +1,5 @@
 base_task:
-    input: cat ${arg1}
+    input: bash $(dirname ${yml})/input.sh ${arg1} ${arg2}
     opts:
         - multi
         - reverse
