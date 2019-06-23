@@ -1,0 +1,6 @@
+base_task:
+    input: cat ${arg1}
+    opts:
+        - multi
+        - reverse
+

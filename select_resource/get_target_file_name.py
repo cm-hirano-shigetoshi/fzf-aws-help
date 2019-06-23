@@ -6,9 +6,10 @@ import subprocess
 from subprocess import PIPE
 
 
-def select_resources(input_cmd):
-    proc = subprocess.run(
-        input_cmd + " | fzf -m --reverse", shell=True, stdout=PIPE)
+def select_resources(result_file):
+    cmd = 'fzfer run ' + os.environ.get(
+        "FZF_AWS_HELP_RESOURCE_HOME") + '/filter_resources.yml ' + result_file
+    proc = subprocess.run(cmd, shell=True, stdout=PIPE)
     stdout = re.sub(r'\s+$', '', proc.stdout.decode('utf8'))
     return stdout
 
@@ -28,7 +29,7 @@ def get_result_file_of(basename):
         with open(result_file, "w") as f:
             proc = subprocess.run(cmd, shell=True, stdout=PIPE)
             f.write(re.sub(r'\s+$', '', proc.stdout.decode('utf8')))
-    return "cat " + result_file
+    return result_file
 
 
 def get_result_file(service, subcmd, method):
