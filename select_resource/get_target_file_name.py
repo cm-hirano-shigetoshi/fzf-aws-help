@@ -32,9 +32,9 @@ def get_file_paths_of(basename):
 def get_file_paths(service, subcmd, method):
     paths = None
     basename = "{}_{}_{}".format(method, service, subcmd)
-    while basename.find("_") >= 0:
+    while paths is None:
         paths = get_file_paths_of(basename)
-        if paths is not None:
+        if "_" not in basename:
             break
         basename = basename[:basename.rfind("_")]
     return paths
