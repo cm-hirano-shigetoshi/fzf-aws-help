@@ -3,4 +3,8 @@ base_task:
     opts:
         - multi
         - reverse
+expects:
+    f5:
+        continue:
+            input: bash $(dirname ${yml})/input.sh ${arg1} ${arg2} --reload
 

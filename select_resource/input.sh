@@ -3,8 +3,14 @@ set -eu
 
 INPUT=$1
 RESULT=$2
+
+if [[ $# > 2 ]] && [[ $3 = "--reload" ]]; then
+  rm -f ${RESULT}
+  shift
+fi
+
 if [[ ! -s ${RESULT} ]]; then
-  bash -c "${INPUT}" > ${RESULT}
+  bash -c "$(cat ${INPUT})" > ${RESULT}
 fi
 cat ${RESULT}
 
