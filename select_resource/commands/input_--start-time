@@ -1,0 +1,5 @@
+now=$(date +%s)
+for x in `seq 1 $((24 * 7))`; do
+    echo "${x}時間前 $((now - $x*60*60))000"
+done
+

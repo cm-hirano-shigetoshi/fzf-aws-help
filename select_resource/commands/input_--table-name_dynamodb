@@ -1,0 +1,3 @@
+aws dynamodb list-tables \
+  | jq -r '.TableNames | .[]' \
+  | sort

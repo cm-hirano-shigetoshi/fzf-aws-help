@@ -1,0 +1,4 @@
+aws lambda create-function help \
+  | fzf --filter='^' --ansi \
+  | perl -ne 'BEGIN{$p=0;} {exit if($p && /^\s*--/); print if($p); $p=1 if(/^\s*--runtime \(string\)/);}' \
+  | sed -n 's/^\s*o //p'
