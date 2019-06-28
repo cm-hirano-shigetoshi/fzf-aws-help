@@ -8,7 +8,7 @@ from subprocess import PIPE
 
 def filter_with_fzf(paths):
     cmd = ' '.join([
-        'fzfer run',
+        'fzfyml run',
         os.environ.get("FZF_AWS_HELP_RESOURCE_HOME") + '/filter_resources.yml',
         paths[0], paths[1]
     ])
