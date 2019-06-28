@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -eu
 
-if [[ $# = 0 ]] || [[ $1 = "" ]]; then
+if [[ $# -eq 0 ]] || [[ $1 = "" ]]; then
+  # no options
+  # aws commands are from stdin
   readonly CMD="aws $(cat - | sed 's%/% %g')"
   cat ~/.local/aws_help/${CMD// /_} \
     | fzf --ansi --filter=^ \
@@ -14,6 +16,8 @@ if [[ $# = 0 ]] || [[ $1 = "" ]]; then
     | tr '\n' ' ' \
     | sed "s/^/${CMD} /"
 else
+  # some options
+  # aws commands are in $1
   readonly OPTIONS=$(cat - | tr '\n' ' ')
   echo "${1}" \
     | sed "s\`___OPTIONS___ \`${OPTIONS}\`" \

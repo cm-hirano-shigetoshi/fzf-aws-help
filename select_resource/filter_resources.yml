@@ -3,6 +3,7 @@ base_task:
     opts:
         - multi
         - reverse
+        - preview-window='hidden'
 expects:
     f5:
         continue:
