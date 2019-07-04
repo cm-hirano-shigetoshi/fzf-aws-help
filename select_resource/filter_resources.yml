@@ -4,6 +4,7 @@ base_task:
         - multi
         - reverse
         - preview-window='hidden'
+        - sync
 expects:
     f5:
         continue:
