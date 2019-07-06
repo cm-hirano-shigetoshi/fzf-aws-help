@@ -61,23 +61,39 @@ def expand(elements, index):
     return [new_pos, new_buf]
 
 
-def get_cur_element_index(elements, pos):
+def get_cur_element_index(buf, pos):
+    try :
+        all_elements = shlex.split(buf)
+    except ValueError as error:
+        sys.stderr.write(str(error) + "\n")
+        sys.exit(1)
+    try:
+        elements = shlex.split(buf[:pos+1])
+    except ValueError as error:
+        try:
+            elements = shlex.split(buf[:pos+1] + "'")
+        except ValueError as error:
+            try:
+                elements = shlex.split(buf[:pos+1] + '"')
+            except ValueError as error:
+                sys.stderr.write(str(error) + "\n")
+                sys.exit(1)
+    pos -= len(buf[:pos+1]) - len(" ".join(elements))
+
     end_pos = 0
     for i, element in enumerate(elements):
         if i > 0:
             end_pos += 1
         end_pos += len(element)
         if pos <= end_pos:
-            return i
-    return len(elements)
+            return [all_elements, i]
+    return [all_elements, len(elements)]
 
 
 buf = sys.argv[2]
 pos = int(sys.argv[1])
 
-elements = shlex.split(buf)
-pos -= len(buf) - len(" ".join(elements))
-index = get_cur_element_index(elements, pos)
+[elements, index] = get_cur_element_index(buf, pos)
 if elements[index-1].startswith('--'):
     [new_pos, new_buf] = expand(elements, index)
     print(new_pos)
