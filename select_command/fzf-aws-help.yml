@@ -4,6 +4,7 @@ base_task:
     input: bash $(dirname ${yml})/get_command_list.sh
     opts:
         - reverse
+        - preview-window='top:70%'
     preview: bash $(dirname ${yml})/preview.sh {}
 expects:
     enter:
