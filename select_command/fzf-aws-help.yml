@@ -17,3 +17,4 @@ expects:
             query: ""
             opts:
               - multi
+              - preview-window='hidden'
