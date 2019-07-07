@@ -21,7 +21,7 @@ function __initialize() {
 }
 
 
-function __fzf_aws_help() {
+function __aws_command_completion() {
   if [[ ! -e "${FZF_AWS_HELP_COMMAND_HOME}/help" ]]; then
     __initialize
     return
@@ -34,7 +34,6 @@ function __fzf_aws_help() {
     zle redisplay
   fi
 }
-zle -N fzf-aws-help __fzf_aws_help
 
 
 function __aws_resource_info {
@@ -48,5 +47,13 @@ function __aws_resource_info {
     zle redisplay
   fi
 }
-zle -N aws-resource-info __aws_resource_info
 
+function __fzf_aws_help {
+  local regexp='^aws *$'
+  if [[ "${BUFFER}" =~ $regexp ]]; then
+    __aws_command_completion
+  else
+    __aws_resource_info
+  fi
+}
+zle -N fzf-aws-help __fzf_aws_help
