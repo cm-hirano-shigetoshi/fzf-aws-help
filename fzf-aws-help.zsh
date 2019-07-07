@@ -57,3 +57,6 @@ function __fzf_aws_help {
   fi
 }
 zle -N fzf-aws-help __fzf_aws_help
+# キーバインドはご自由に
+bindkey "^h" fzf-aws-help
+
