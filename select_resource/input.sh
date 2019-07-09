@@ -4,6 +4,8 @@ set -eu
 INPUT=$1
 RESULT=$2
 
+mkdir -p $(dirname ${RESULT})
+
 if [[ $# > 2 ]] && [[ $3 = "--reload" ]]; then
   rm -f ${RESULT}
   shift
