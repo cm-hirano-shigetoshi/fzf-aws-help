@@ -1,0 +1,3 @@
+aws cloudwatch describe-alarms \
+  | jq -r '.MetricAlarms | .[] | .AlarmName' \
+  | sort

@@ -1,0 +1,3 @@
+aws codepipeline list-pipelines \
+  | jq -r '.pipelines | .[] | .name' \
+  | sort
