@@ -1,0 +1,3 @@
+aws cloudformation list-stacks \
+  | jq -r '.StackSummaries | .[] | .StackName' \
+  | sort -u

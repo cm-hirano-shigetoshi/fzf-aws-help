@@ -1,0 +1,3 @@
+aws iam list-roles \
+  | jq -r '.Roles | .[] | .RoleName' \
+  | sort
