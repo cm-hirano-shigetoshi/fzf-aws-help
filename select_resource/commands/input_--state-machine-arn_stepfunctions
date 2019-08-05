@@ -1,0 +1,3 @@
+aws stepfunctions list-state-machines \
+  | jq -r '.stateMachines[].stateMachineArn' \
+  | sort

@@ -1,0 +1,3 @@
+aws events list-rules \
+  | jq -r '.Rules[].Name' \
+  | sort

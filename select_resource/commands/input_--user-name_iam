@@ -1,0 +1,3 @@
+aws iam list-users \
+  | jq -r '.Users[].UserName' \
+  | sort
