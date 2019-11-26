@@ -4,19 +4,17 @@ base_task:
         - reverse
         - preview-window='top:70%'
     preview: bash {ymldir}/preview.sh {}
-    stdout:
+    output:
         enter:
-            - pipe: bash {ymldir}/output.sh
-                    | sed 's/___OPTIONS___ //g'
-continue:
+            - pipe: bash {ymldir}/output.sh | sed 's/___OPTIONS___ //g'
+switch_task:
     ctrl-o:
         input: echo '{pre_content}' | bash {ymldir}/select_options.sh
+        query: ''
         opts:
-          - query=""
           - multi
           - preview-window='hidden'
-        stdout:
+        output:
             enter:
-              - pipe: echo '{pre_content}'
-                        | bash {ymldir}/output.sh
-                        | sed 's/___OPTIONS___ //g'
+                - pipe: bash {ymldir}/output_with_options.sh {pre_content}
+
