@@ -1,20 +1,20 @@
-variables:
-    var1: ""
 base_task:
-    input: bash $(dirname ${yml})/get_command_list.sh
+    input: bash {ymldir}/get_command_list.sh
     opts:
         - reverse
         - preview-window='top:70%'
-    preview: bash $(dirname ${yml})/preview.sh {}
-expects:
-    enter:
-        pipe: bash $(dirname ${yml})/output.sh "${var1}"
-                | sed 's/___OPTIONS___ //g'
+    preview: bash {ymldir}/preview.sh {}
+    output:
+        enter:
+            - pipe: bash {ymldir}/output.sh | sed 's/___OPTIONS___ //g'
+switch_task:
     ctrl-o:
-        continue:
-            var1: $(echo '${o}' | bash $(dirname ${yml})/output.sh)
-            input: echo '${o}' | bash $(dirname ${yml})/select_options.sh
-            query: ""
-            opts:
-              - multi
-              - preview-window='hidden'
+        input: echo '{pre_content}' | bash {ymldir}/select_options.sh
+        query: ''
+        opts:
+          - multi
+          - preview-window='hidden'
+        output:
+            enter:
+                - pipe: bash {ymldir}/output_with_options.sh {pre_content}
+

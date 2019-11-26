@@ -1,12 +1,11 @@
 base_task:
-    input: bash $(dirname ${yml})/input.sh ${arg1} ${arg2}
+    input: bash {ymldir}/input.sh {arg1} {arg2}
     opts:
         - multi
         - reverse
         - preview-window='hidden'
         - sync
-expects:
+continue:
     f5:
-        continue:
-            input: bash $(dirname ${yml})/input.sh ${arg1} ${arg2} --reload
+        input: bash {ymldir}/input.sh {arg1} {arg2} --reload
 
