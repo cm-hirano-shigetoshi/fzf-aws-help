@@ -1,0 +1,2 @@
+aws ecs list-clusters \
+  | jq -r '.clusterArns | .[]'

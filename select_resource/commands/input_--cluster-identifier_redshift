@@ -1,0 +1,3 @@
+aws redshift describe-clusters \
+  | jq -r '.Clusters[].ClusterIdentifier' \
+  | sort

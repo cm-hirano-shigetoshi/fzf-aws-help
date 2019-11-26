@@ -1,0 +1,3 @@
+aws sqs list-queues \
+  | jq -r '.QueueUrls[]' \
+  | sort

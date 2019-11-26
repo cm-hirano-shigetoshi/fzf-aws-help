@@ -1,0 +1,3 @@
+aws glue list-jobs \
+  | jq -r '.JobNames[]' \
+  | sort

@@ -1,0 +1,2 @@
+aws ecs list-task-definitions \
+  | jq -r '.taskDefinitionArns | .[]'
